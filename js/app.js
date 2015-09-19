@@ -33,6 +33,7 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
 Enemy.prototype.checkCollisions = function() {
 if (Math.abs(this.x - player.x) < 50 &&
            Math.abs(this.y - player.y) < 50) {
@@ -46,19 +47,20 @@ if (Math.abs(this.x - player.x) < 50 &&
 
 var Player = function() {
     this.sprite = 'images/char-boy.png';
+    this.initY=400;
     this.x = 200;
-    this.y = 400;
+    this.y = this.initY;
 };
 
 Player.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter which will ensure the game runs at the same speed for all computers.
     if (this.ctlKey === 'left' && this.x > 0) {
-        this.x = this.x - 100;
-    } else if (this.ctlKey === 'right' && this.x != 400) {
-        this.x = this.x + 100;
+        this.x = this.x - 101;
+    } else if (this.ctlKey === 'right' &&  !(this.x >= 400)) {
+        this.x = this.x + 101;
     } else if (this.ctlKey === 'up') {
         this.y = this.y - 83;
-    } else if (this.ctlKey === 'down' && this.y != 400) {
+    } else if (this.ctlKey === 'down' && !(this.y >= this.initY)) {
         this.y = this.y + 83;
     }
     // Player made it to water
@@ -73,6 +75,7 @@ Player.prototype.update = function(dt) {
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
 Player.prototype.handleInput = function(key) {
     this.ctlKey = key;
 };
@@ -80,7 +83,7 @@ Player.prototype.handleInput = function(key) {
 // Reset player to starting position.
 Player.prototype.reset = function() {
     player.x = 200;
-    player.y = 400;
+    player.y = this.initY;
 };
 
 /*instantiate objects*/
